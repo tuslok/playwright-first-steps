@@ -17,7 +17,7 @@ test.describe('Pulpit tests', () => {
     // Arange
     let receiverNumber = '2';
     let amountTransfer = '120,00';
-    let titleTransfer = 'Pizza'; 
+    let titleTransfer = 'Pizza';
 
     //Act
     await page
@@ -50,5 +50,24 @@ test.describe('Pulpit tests', () => {
     await expect(page.locator('#show_messages')).toHaveText(
       'Doładowanie wykonane! 25,00PLN na numer 500 xxx xxx',
     );
+  });
+
+  test.only('Correct balance after mobile top-up', async ({ page }) => {
+    // Arrange
+    let phoneNumber = '500 xxx xxx';
+    let amountTopUp = '25';
+    const initialBalance = await page.locator('#money_value').innerText();
+    const expectResult = Number(initialBalance) - Number(amountTopUp);
+
+    // Act
+    await page.locator('#widget_1_topup_receiver').selectOption(phoneNumber);
+    await page.locator('#widget_1_topup_amount').fill(amountTopUp);
+    await page.locator('#uniform-widget_1_topup_agreement span').click();
+    
+    await page.getByRole('button', { name: 'doładuj telefon' }).click();
+    await page.getByTestId('close-button').click();
+
+    // Assert
+    await expect(page.locator('#money_value')).toHaveText(`${expectResult}`);
   });
 });
