@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginData } from '../test-data/login.data';
 
 test.describe('Pulpit tests', () => {
   // Arrange
-  const loginName = 'testerek';
-  const password = 'pa55word';
+  let loginName = loginData.loginName;
+  let password = loginData.password;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -52,7 +53,7 @@ test.describe('Pulpit tests', () => {
     );
   });
 
-  test.only('Correct balance after mobile top-up', async ({ page }) => {
+  test('Correct balance after mobile top-up', async ({ page }) => {
     // Arrange
     let phoneNumber = '500 xxx xxx';
     let amountTopUp = '25';
@@ -63,7 +64,7 @@ test.describe('Pulpit tests', () => {
     await page.locator('#widget_1_topup_receiver').selectOption(phoneNumber);
     await page.locator('#widget_1_topup_amount').fill(amountTopUp);
     await page.locator('#uniform-widget_1_topup_agreement span').click();
-    
+
     await page.getByRole('button', { name: 'doładuj telefon' }).click();
     await page.getByTestId('close-button').click();
 
