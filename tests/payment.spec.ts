@@ -30,11 +30,7 @@ test.describe('Pulpit tests', () => {
     let expectedMessage = `Przelew wykonany! ${amount},00PLN dla ${transferReceiver}`;
 
     //Act
-    await paymentPage.paymentReceiver.fill(transferReceiver);
-    await paymentPage.accountNumber.fill(accountNumber);
-    await paymentPage.amount.fill(amount);
-    await paymentPage.sendTransferButton.click();
-    await paymentPage.closePopupButton.click();
+    await paymentPage.makeTransfer(transferReceiver, accountNumber, amount);
 
     // Assert
     await expect(paymentPage.message).toHaveText(expectedMessage);
