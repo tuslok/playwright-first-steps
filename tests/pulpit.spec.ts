@@ -25,9 +25,7 @@ test.describe('Pulpit tests', () => {
     const puliptPage = new PulpitPage(page);
 
     //Act
-    await page
-      .locator('#widget_1_transfer_receiver')
-      .selectOption(receiverNumber);
+    await puliptPage.transferReceiver.selectOption(receiverNumber);
     await puliptPage.transferAmount.fill(amountTransfer);
     await puliptPage.transferTitle.fill(titleTransfer);
     await puliptPage.confirmButton.click();

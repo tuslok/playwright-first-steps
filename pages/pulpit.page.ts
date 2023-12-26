@@ -6,6 +6,7 @@ export class PulpitPage {
   closePopUpButton = this.page.getByTestId('close-button');
   message = this.page.locator('#show_messages');
   moneyValue = this.page.locator('#money_value');
+  userNameText = this.page.getByTestId('user-name');
 
   // custom payment
   transferReceiver = this.page.locator('#widget_1_transfer_receiver');
