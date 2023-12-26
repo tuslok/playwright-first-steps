@@ -4,6 +4,8 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  let pulpitPage: PulpitPage;
+
   // Arrange
   let loginName = loginData.loginName;
   let password = loginData.password;
@@ -15,6 +17,8 @@ test.describe('Pulpit tests', () => {
     await loginPage.loginName.fill(loginName);
     await loginPage.password.fill(password);
     await loginPage.loginButton.click();
+
+    pulpitPage = new PulpitPage(page);
   });
 
   test('Quick payment with correct data', async ({ page }) => {
@@ -22,16 +26,15 @@ test.describe('Pulpit tests', () => {
     let receiverNumber = '2';
     let amountTransfer = '120,00';
     let titleTransfer = 'Pizza';
-    const puliptPage = new PulpitPage(page);
 
     //Act
-    await puliptPage.transferReceiver.selectOption(receiverNumber);
-    await puliptPage.transferAmount.fill(amountTransfer);
-    await puliptPage.transferTitle.fill(titleTransfer);
-    await puliptPage.confirmButton.click();
+    await pulpitPage.transferReceiver.selectOption(receiverNumber);
+    await pulpitPage.transferAmount.fill(amountTransfer);
+    await pulpitPage.transferTitle.fill(titleTransfer);
+    await pulpitPage.confirmButton.click();
 
     // Assert
-    await expect(puliptPage.message).toHaveText(
+    await expect(pulpitPage.message).toHaveText(
       'Przelew wykonany! Chuck Demobankowy - 120,00PLN - Pizza',
     );
   });
@@ -40,18 +43,17 @@ test.describe('Pulpit tests', () => {
     // Arrange
     let phoneNumber = '500 xxx xxx';
     let amountTopUp = '25,00';
-    const puliptPage = new PulpitPage(page);
 
     // Act
 
-    await puliptPage.topupReceiver.selectOption(phoneNumber);
-    await puliptPage.topupAmount.fill(amountTopUp);
-    await puliptPage.topupAgreement.click();
-    await puliptPage.topUpConfirmButton.click();
-    await puliptPage.closePopUpButton.click();
+    await pulpitPage.topupReceiver.selectOption(phoneNumber);
+    await pulpitPage.topupAmount.fill(amountTopUp);
+    await pulpitPage.topupAgreement.click();
+    await pulpitPage.topUpConfirmButton.click();
+    await pulpitPage.closePopUpButton.click();
 
     // Assert
-    await expect(puliptPage.message).toHaveText(
+    await expect(pulpitPage.message).toHaveText(
       'Doładowanie wykonane! 25,00PLN na numer 500 xxx xxx',
     );
   });
@@ -62,7 +64,6 @@ test.describe('Pulpit tests', () => {
     let amountTopUp = '25';
     const initialBalance = await page.locator('#money_value').innerText();
     const expectResult = Number(initialBalance) - Number(amountTopUp);
-    const pulpitPage = new PulpitPage(page);
 
     // Act
     await pulpitPage.topupReceiver.selectOption(phoneNumber);

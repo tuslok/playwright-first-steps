@@ -5,6 +5,7 @@ import { PaymentPage } from '../pages/payment.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  let paymentPage: PaymentPage;
   // Arrange
   let loginName = loginData.loginName;
   let password = loginData.password;
@@ -20,6 +21,7 @@ test.describe('Pulpit tests', () => {
     //await page.getByRole('link', { name: 'płatności' }).click();
     const puliptPage = new PulpitPage(page);
     await puliptPage.sideMenu.paymentButton.click();
+    paymentPage = new PaymentPage(page);
   });
 
   test('Simple payment', async ({ page }) => {
@@ -28,7 +30,6 @@ test.describe('Pulpit tests', () => {
     let amount = '333';
     let accountNumber = '46 1324 8941 3614 5641 3564 65321';
     let expectedMessage = `Przelew wykonany! ${amount},00PLN dla ${transferReceiver}`;
-    const paymentPage = new PaymentPage(page);
 
     //Act
     await paymentPage.paymentReceiver.fill(transferReceiver);

@@ -4,21 +4,19 @@ import { LoginPage } from '../pages/login.page';
 import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('User login to Demobank', () => {
+  let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
+    loginPage = new LoginPage(page);
   });
 
   test('Successful login with correct credentials', async ({ page }) => {
     // Arrange
     let loginName = loginData.loginName;
     let password = loginData.password;
-    const loginPage = new LoginPage(page);
 
     // Act
-
-    await loginPage.loginName.fill(loginName);
-    await loginPage.password.fill(password);
-    await loginPage.loginButton.click();
+    await loginPage.login(loginName, password);
 
     // Assert
     const puliptPage = new PulpitPage(page);
@@ -29,7 +27,6 @@ test.describe('User login to Demobank', () => {
     // Arange
     let incorrectLoginName = 'tester';
     let expectedError = 'identyfikator ma min. 8 znaków';
-    const loginPage = new LoginPage(page);
 
     // Act
     await loginPage.loginName.fill(incorrectLoginName);
@@ -44,7 +41,6 @@ test.describe('User login to Demobank', () => {
     let loginName = loginData.loginName;
     let password = 'tooShor';
     let expectedError = 'hasło ma min. 8 znaków';
-    const loginPage = new LoginPage(page);
 
     // Act
     await loginPage.loginName.fill(loginName);
