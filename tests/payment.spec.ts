@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginData } from '../test-data/login.data';
 import { LoginPage } from '../pages/login.page';
+import { PaymentPage } from '../pages/payment.page';
 
 test.describe('Pulpit tests', () => {
   // Arrange
@@ -15,9 +16,6 @@ test.describe('Pulpit tests', () => {
     await loginPage.password.fill(password);
     await loginPage.loginButton.click();
 
-    //    await page.getByTestId('login-input').fill(loginName);
-    //    await page.getByTestId('password-input').fill(password);
-    //    await page.getByTestId('login-button').click();
     await page.getByRole('link', { name: 'płatności' }).click();
   });
 
@@ -27,15 +25,16 @@ test.describe('Pulpit tests', () => {
     let amount = '333';
     let accountNumber = '46 1324 8941 3614 5641 3564 65321';
     let expectedMessage = `Przelew wykonany! ${amount},00PLN dla ${transferReceiver}`;
+    const paymentPage = new PaymentPage(page);
+
     //Act
+    await paymentPage.paymentReceiver.fill(transferReceiver);
+    await paymentPage.accountNumber.fill(accountNumber);
+    await paymentPage.amount.fill(amount);
+    await paymentPage.sendTransferButton.click();
+    await paymentPage.closePopupButton.click();
 
-    await page.getByTestId('transfer_receiver').fill(transferReceiver);
-    await page.getByTestId('form_account_to').fill(accountNumber);
-    await page.getByTestId('form_amount').fill(amount);
-    await page.getByRole('button', { name: 'wykonaj przelew' }).click();
-    await page.getByTestId('close-button').click();
     // Assert
-
-    await expect(page.locator('#show_messages')).toHaveText(expectedMessage);
+    await expect(paymentPage.message).toHaveText(expectedMessage);
   });
 });
