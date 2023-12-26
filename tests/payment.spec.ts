@@ -14,9 +14,7 @@ test.describe('Pulpit tests', () => {
     await page.goto('/');
 
     const loginPage = new LoginPage(page);
-    await loginPage.loginName.fill(loginName);
-    await loginPage.password.fill(password);
-    await loginPage.loginButton.click();
+    await loginPage.login(loginName, password);
 
     //await page.getByRole('link', { name: 'płatności' }).click();
     const puliptPage = new PulpitPage(page);
