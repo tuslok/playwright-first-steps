@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { loginData } from '../test-data/login.data';
 import { LoginPage } from '../pages/login.page';
 import { PaymentPage } from '../pages/payment.page';
+import { PulpitPage } from '../pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
   // Arrange
@@ -16,7 +17,9 @@ test.describe('Pulpit tests', () => {
     await loginPage.password.fill(password);
     await loginPage.loginButton.click();
 
-    await page.getByRole('link', { name: 'płatności' }).click();
+    //await page.getByRole('link', { name: 'płatności' }).click();
+    const puliptPage = new PulpitPage(page);
+    await puliptPage.sideMenu.paymentButton.click();
   });
 
   test('Simple payment', async ({ page }) => {

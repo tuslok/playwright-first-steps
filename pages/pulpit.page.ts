@@ -1,8 +1,11 @@
 import { Page } from '@playwright/test';
+import { SideMenuComponent } from '../components/side-menu.component';
 
 export class PulpitPage {
   constructor(private page: Page) {}
-  // for all
+
+  sideMenu = new SideMenuComponent(this.page);
+
   closePopUpButton = this.page.getByTestId('close-button');
   message = this.page.locator('#show_messages');
   moneyValue = this.page.locator('#money_value');
