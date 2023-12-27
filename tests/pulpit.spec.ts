@@ -25,10 +25,7 @@ test.describe('Pulpit tests', () => {
     let titleTransfer = 'Pizza';
 
     //Act
-    await pulpitPage.transferReceiver.selectOption(receiverNumber);
-    await pulpitPage.transferAmount.fill(amountTransfer);
-    await pulpitPage.transferTitle.fill(titleTransfer);
-    await pulpitPage.confirmButton.click();
+    pulpitPage.makeQuickPayment(receiverNumber, amountTransfer, titleTransfer);
 
     // Assert
     await expect(pulpitPage.message).toHaveText(
@@ -42,12 +39,7 @@ test.describe('Pulpit tests', () => {
     let amountTopUp = '25,00';
 
     // Act
-
-    await pulpitPage.topupReceiver.selectOption(phoneNumber);
-    await pulpitPage.topupAmount.fill(amountTopUp);
-    await pulpitPage.topupAgreement.click();
-    await pulpitPage.topUpConfirmButton.click();
-    await pulpitPage.closePopUpButton.click();
+    pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
 
     // Assert
     await expect(pulpitPage.message).toHaveText(
@@ -63,15 +55,7 @@ test.describe('Pulpit tests', () => {
     const expectResult = Number(initialBalance) - Number(amountTopUp);
 
     // Act
-    await pulpitPage.topupReceiver.selectOption(phoneNumber);
-    await pulpitPage.topupAmount.fill(amountTopUp);
-    await pulpitPage.topupAgreement.click();
-
-    await pulpitPage.topUpConfirmButton.click();
-    await pulpitPage.closePopUpButton.click();
-
-    //await page.getByRole('button', { name: 'doładuj telefon' }).click();
-    //await page.getByTestId('close-button').click();
+    pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
 
     // Assert
     await expect(pulpitPage.moneyValue).toHaveText(`${expectResult}`);

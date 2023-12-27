@@ -24,4 +24,27 @@ export class PulpitPage {
   topUpConfirmButton = this.page.getByRole('button', {
     name: 'doładuj telefon',
   });
+
+  async makeMobileTopUp(
+    phoneNumber: string,
+    amountTopUp: string,
+  ): Promise<void> {
+    await this.topupReceiver.selectOption(phoneNumber);
+    await this.topupAmount.fill(amountTopUp);
+    await this.topupAgreement.click();
+    await this.topUpConfirmButton.click();
+    //await this.closePopUpButton.click();
+  }
+
+  async makeQuickPayment(
+    receiverNumber: string,
+    amountTransfer: string,
+    titleTransfer: string,
+  ): Promise<void> {
+    await this.transferReceiver.selectOption(receiverNumber);
+    await this.transferAmount.fill(amountTransfer);
+    await this.transferTitle.fill(titleTransfer);
+    await this.confirmButton.click();
+    //await this.closePopUpButton.click();
+  }
 }
