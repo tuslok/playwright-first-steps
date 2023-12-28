@@ -25,7 +25,7 @@ test.describe('Pulpit tests', () => {
     let titleTransfer = 'Pizza';
 
     //Act
-    pulpitPage.makeQuickPayment(receiverNumber, amountTransfer, titleTransfer);
+    await pulpitPage.makeQuickPayment(receiverNumber, amountTransfer, titleTransfer);
 
     // Assert
     await expect(pulpitPage.message).toHaveText(
@@ -39,7 +39,7 @@ test.describe('Pulpit tests', () => {
     let amountTopUp = '25,00';
 
     // Act
-    pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
+    await pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
 
     // Assert
     await expect(pulpitPage.message).toHaveText(
@@ -55,7 +55,7 @@ test.describe('Pulpit tests', () => {
     const expectResult = Number(initialBalance) - Number(amountTopUp);
 
     // Act
-    pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
+    await pulpitPage.makeMobileTopUp(phoneNumber, amountTopUp);
 
     // Assert
     await expect(pulpitPage.moneyValue).toHaveText(`${expectResult}`);
